@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="lo">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Surprise 💕</title>
+    <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@300;400;600&family=Noto+Sans+Lao:wght@300;400;700&family=Pinyon+Script&display=swap" rel="stylesheet">
+    <style>
+
+       
+
+
+        :root {
+            --pink-soft: #FFE5EC;
+            --pink-medium: #FFB3C6;
+            --pink-accent: #FF8FAB;
+            --pink-deep: #FB6F92;
+            --white: #FFFFFF;
+            --glass: rgba(255, 255, 255, 0.8);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans Lao', 'Anuphan', sans-serif;
+        }
+
+        body { background: radial-gradient(circle at center, #FFF0F5 0%, var(--pink-soft) 100%); min-height: 100vh; display: flex; justify-content: center; align-items: center; overflow-x: hidden; color: #4A4A4A; }
+
+        
+
+        /* Background Floating Polaroids */
+        .floating-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .float-photo {
+            position: absolute;
+            width: 80px;
+            padding: 5px 5px 15px 5px;
+            background: white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transform: rotate(var(--r));
+            animation: floatUp var(--d) linear infinite, softFade 8s ease-in-out infinite;
+            opacity: 0.4;
+            border-radius: 8px;
+
+        }
+
+        @keyframes softFade {
+    0%,100% { filter: blur(0px); }
+    50% { filter: blur(1px); }
+}
+
+
+        .float-photo img {
+            width: 100%;
+            height: 70px;
+            object-fit: cover;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(110vh) rotate(var(--r)); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-20vh) rotate(calc(var(--r) + 20deg)); opacity: 0; }
+        }
+
+        /* Container & Scrolling */
+        .wrapper {
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Heart Section */
+        .heart-section {
+            text-align: center;
+            transition: all 0.8s ease;
+        }
+
+        .heart-section.hidden {
+            display: none;
+        }
+
+       .heart-container {
+    position: relative;
+    width: 280px;
+    height: 280px;
+    margin: 0 auto 30px;
+    cursor: pointer;
+    animation: pulseGlow 2s infinite;
+}
+
+@keyframes pulseGlow {
+    0% { filter: drop-shadow(0 0 10px rgba(251,111,146,0.4)); }
+    50% { filter: drop-shadow(0 0 25px rgba(251,111,146,0.8)); }
+    100% { filter: drop-shadow(0 0 10px rgba(251,111,146,0.4)); }
+}
+
+
+        .heart-outline {
+            width: 100%;
+            height: 100%;
+            fill: rgba(255, 255, 255, 0.3);
+            stroke: var(--pink-accent);
+            stroke-width: 2;
+        }
+
+        .heart-fill-wrapper {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0%; /* Dynamic */
+            overflow: hidden;
+            transition: height 0.1s ease;
+        }
+
+        .heart-fill-svg {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 280px;
+            height: 280px;
+            fill: var(--pink-deep);
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: sparkleAnim 0.8s linear forwards;
+        }
+
+        @keyframes sparkleAnim {
+            to { transform: translateY(-30px) scale(0); opacity: 0; }
+        }
+
+        /* Postcard Section */
+        .postcard-section {
+            display: none;
+            width: 100%;
+            perspective: 1000px;
+            margin: 40px 0;
+        }
+
+        .postcard-section.show {
+            display: block;
+            animation: slideIn 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+       .postcard {
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+    padding: 30px;
+    max-width: 650px;
+    margin: 0 auto;
+    transition: transform 0.4s ease;
+}
+
+.postcard:hover {
+    transform: translateY(-5px);
+}
+
+
+      .polaroid-frame {
+    background: white;
+    padding: 20px 20px 70px 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    border-radius: 10px;
+    margin-bottom: 25px;
+    transform: rotate(-3deg);
+    transition: all 0.4s ease;
+}
+
+.polaroid-frame:hover {
+    transform: rotate(0deg) scale(1.03);
+}
+
+        .polaroid-frame:hover {
+            transform: rotate(0deg);
+        }
+
+        .main-img {
+            width: 100%;
+            aspect-ratio: 4/5;
+            object-fit: cover;
+            border: 1px solid #f0f0f0;
+        }
+
+        .postcard-content {
+            padding: 0 15px;
+        }
+
+       .message-text {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #444;
+    min-height: 100px;
+    white-space: pre-line;
+}
+
+        .signature {
+            font-family: 'Pinyon Script', cursive;
+            font-size: 2rem;
+            color: var(--pink-deep);
+            text-align: right;
+            margin-top: 30px;
+        }
+
+      .music-bar {
+    margin-top: 30px;
+    background: linear-gradient(135deg, #FFB3C6, #FF8FAB);
+    padding: 15px 20px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: white;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.play-btn {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: none;
+    background: white;
+    color: #FB6F92;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.play-btn:hover {
+    transform: scale(1.1);
+}
+
+
+        /* Responsive Fixes */
+        @media (min-width: 768px) {
+            .float-photo { width: 120px; }
+            .float-photo img { height: 100px; }
+            .message-text { font-size: 1.4rem; }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(50px) rotateX(-10deg); }
+            to { opacity: 1; transform: translateY(0) rotateX(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="floating-container" id="floatLayer"></div>
+
+    <div class="wrapper">
+        <div class="heart-section" id="heartSection">
+            <div class="heart-container" id="heartBtn">
+                <svg class="heart-outline" viewBox="0 0 100 100">
+                    <path d="M50,90 C50,90 10,60 10,35 C10,20 20,10 30,10 C40,10 50,20 50,30 C50,20 60,10 70,10 C80,10 90,20 90,35 C90,60 50,90 50,90 Z"/>
+                </svg>
+                <div class="heart-fill-wrapper" id="heartFill">
+                    <svg class="heart-fill-svg" viewBox="0 0 100 100">
+                        <path d="M50,90 C50,90 10,60 10,35 C10,20 20,10 30,10 C40,10 50,20 50,30 C50,20 60,10 70,10 C80,10 90,20 90,35 C90,60 50,90 50,90 Z"/>
+                    </svg>
+                </div>
+            </div>
+            <h2 id="hintText">ລອງກົດຫົວໃຈຂ້າງໄວ້ເບີ່ງແມະ.... ❤️</h2>
+        </div>
+
+        <div class="postcard-section" id="postcardSection">
+            <div class="postcard">
+                <div class="polaroid-frame">
+                    <img src="per10.jpeg" class="main-img" alt="Our Memory">
+                </div>
+                
+                <div class="postcard-content">
+                    <div class="message-text" id="typewriter"></div>
+                    <div class="signature">Happy Valentine's Day ❤️</div>
+                    
+                    <div class="music-bar">
+                        <button class="play-btn" id="playBtn">▶</button>
+                        <div>
+                            <p style="font-size: 0.9rem; font-weight: bold;">A Thousand Years</p>
+                            <p style="font-size: 0.7rem;">Christina Perri</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="Christina Perri - A Thousand Years [Official Music Video].mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const heartBtn = document.getElementById('heartBtn');
+        const heartFill = document.getElementById('heartFill');
+        const heartSection = document.getElementById('heartSection');
+        const postcardSection = document.getElementById('postcardSection');
+        const music = document.getElementById('bgMusic');
+        const playBtn = document.getElementById('playBtn');
+
+        let progress = 0;
+        let isPressing = false;
+        let fillInterval;
+       
+        const floatLayer = document.getElementById('floatLayer');
+        const photoCount = 10;
+        
+            const samplePhotos = [
+            '952A2C5B-70AB-465C-9B3C-C8CBADA2FB31.jpg',
+            'per1.jpeg',
+            'per2.jpeg',
+            'per3.jpeg',
+            'per4.jpeg',
+            'per5.jpeg',
+            'per6.jpeg',
+            'per7.jpeg',
+            'per8.jpeg',
+            'per9.jpeg',
+            'per10.jpeg','952A2C5B-70AB-465C-9B3C-C8CBADA2FB31.jpg'
+          ];
+       
+        for (let i = 0; i < photoCount; i++) {
+            const div = document.createElement('div');
+            div.className = 'float-photo';
+            div.style.setProperty('--r', `${Math.random() * 40 - 20}deg`);
+            div.style.setProperty('--d', `${10 + Math.random() * 10}s`);
+            div.style.left = `${Math.random() * 90}%`;
+            div.style.animationDelay = `${Math.random() * 10}s`;
+            
+            const img = document.createElement('img');
+            img.src = samplePhotos[Math.floor(Math.random() * samplePhotos.length)];
+                        // ใช้รูปซ้ำหรือเปลี่ยนตาม index
+            div.appendChild(img);
+            floatLayer.appendChild(div);
+        }
+
+        // 2. Heart Fill Logic
+        function startFill() {
+            isPressing = true;
+            fillInterval = setInterval(() => {
+                if(progress < 100) {
+                    progress += 1.5;
+                    heartFill.style.height = progress + '%';
+                    createSparkle();
+                } else {
+                    complete();
+                }
+            }, 30);
+        }
+
+        function stopFill() {
+            isPressing = false;
+            clearInterval(fillInterval);
+        }
+
+        function createSparkle() {
+            const s = document.createElement('div');
+            s.className = 'sparkle';
+            s.style.left = Math.random() * 80 + 10 + '%';
+            s.style.top = Math.random() * 80 + 10 + '%';
+            heartBtn.appendChild(s);
+            setTimeout(() => s.remove(), 800);
+        }
+
+        function complete() {
+            stopFill();
+            heartSection.classList.add('hidden');
+            postcardSection.classList.add('show');
+            
+            // Try Autoplay
+            music.play().catch(() => console.log("Autoplay blocked"));
+            if(!music.paused) playBtn.innerText = '⏸';
+            
+            startTyping();
+        }
+
+        heartBtn.addEventListener('mousedown', startFill);
+        window.addEventListener('mouseup', stopFill);
+        heartBtn.addEventListener('touchstart', (e) => { e.preventDefault(); startFill(); });
+        window.addEventListener('touchend', stopFill);
+
+        // 3. Typewriter Effect
+        const message = `ນີ້ຄົງເປັນຮູບທຳອິດທີ່ຖ່າຍນຳກັນແລ້ວເຂົາມັກທີ່ສຸດ....\n\n ຈົນຕອນນີ້ເຮົາຄົບກັນໄດ້ 4 ເດືອນແລ້ວຕະຫລອດໄລຍະທີ່ຜ່ານມາຄວາມຮູ້ສຶກທີ່ເຂົາມີຕໍ່ເພິ່ນກະຍັງເປັນຄວາມຮູ້ສຶກດຽວກັນກັບມື້ແລກທີ່ເຮົາໄດ້ຮູ້ຈັກກັນ(ແຕ່ຮັກຫຼາຍຂື້ນ ອິອິ) ທີ່ຜ່ານມາເພິ່ນດູແລແລະເບີ່ງແຍງເຂົາໄດ້ດີແຮງ ເປັນຄວາມໂຊກດີທີ່ເຂົາຮູ້ສຶກຢາກຂອບໃຈໂຕເອງທີ່ເປີດຮັບເພິ່ນເຂົ້າມາໃນມື້ນັ້ນແລະເພິ່ນຮັກເຂົາໄດ້ເກັ່ງແຮງຫມານ້ອຍ ບໍ່ວ່າຈະເຈີບັນຫາຫຍັງກະມີເພິ່ນທີ່ຄອຍໃຫ້ກຳລັງໃຈແລະ support ຢາກບອກເພິ່ນວ່າຖ້າມື້ໃດທີ່ເພິ່ນເຈີເລື່ອງຫນັກໆເພິ່ນຈະຍັງມີເຂົາຄອຍຮັບຟັງແລະຢູ່ຂ້າງໆຈະໂອບກອດຈົນເພິ່ນຮູ້ສຶກປອດໄພຈະເຮັດໃຫ້ເພິ່ນຫມັ້ນໃຈວ່າເຂົາສາມາດເປັນແຟນທີ່ດີຕໍ່ເພິ່ນໄດ້ຈະຄອຍເບີ່ງການເຕີບໃຫຍ່ຂອງອານາຄົດເພິ່ນແລະເຂົາເຊື່ອວ່າເພິ່ນເຮັດມັນໄດ້ຄົນເກັ່ງຂອງເຂົາ ຫວັງວ່າເຮົາຈະຮັກສາຄວາມສຳພັນນີ້ໃຫ້ເຕີບໃຫຍ່ໄປນຳກັນດ້ວຍດີໃນອານາຄົດ .\n\n
+         ຮັກເພິ່ນສະເຫມີເປີ້ 💕`;
+        
+        function startTyping() {
+            const target = document.getElementById('typewriter');
+            let i = 0;
+            function type() {
+                if (i < message.length) {
+                    target.innerText += message.charAt(i);
+                    i++;
+                    setTimeout(type, 80);
+                    // Scroll down as typing
+                    window.scrollTo(0, document.body.scrollHeight);
+                }
+            }
+            type();
+        }
+
+        // 4. Music Toggle
+        playBtn.addEventListener('click', () => {
+            if (music.paused) {
+                music.play();
+                playBtn.innerText = '⏸';
+            } else {
+                music.pause();
+                playBtn.innerText = '▶';
+            }
+        });
+    </script>
+</body>
+</html>
